@@ -1,0 +1,41 @@
+--Stored Procedure
+
+-- Exercicio
+	Escreva ma stored procedure que receba como paramentro o cod do cliente e verifique se este fez mais de 3 pedidos em ma~ço/2012.
+	Se sim, gravar na tab.mensagen:
+	'ciente especial - enviar brinde' , concatenado com o nome e o codigo do cliente.
+	fazer o tratamento de erro - se o cliente passado como parametro nao existir, abortar o procedimento exibindo mnsagem (usar raise_aplication_error)
+	
+---------- Exercício 20/04/2017 -----------------------------------------------------
+
+CREATE TABLE Tab_Mensagem
+( DtMsg DATE,
+  Msg VARCHAR2(200));
+
+CREATE OR REPLACE PROCEDURE Verif_Cliente (Cod_Cliente_P NUMBER)
+AS
+	CodCli Pedido.Cod_Cliente % type;
+	NomeCli Cliente.Nome_Cliente % type;
+	BEGIN
+		SELECT Nome_Cliente INTO NomeCli
+		FROM Cliente
+		WHERE Cod_Cliente = Cod_Cliente_P;
+		
+		SELECT COUNT(*) INTO CodCli
+		FROM Pedido
+		WHERE Cod_Cliente = Cod_Cliente_P AND Prazo_Entrega BETWEEN '01-03-2012' AND '31-03-2012'
+		GROUP BY Cod_Cliente
+		HAVING COUNT(*) > 3;
+		
+		IF SQL%ROWCOUNT <> 0 THEN
+			INSERT INTO Tab_Mensagem VALUES (SYSDATE, 'Cliente Especial - Enviar Brinde ' || NomeCli || ' ' || CodCli);
+		END IF;
+		
+		EXCEPTION
+			WHEN NO_DATA_FOUND THEN
+				RAISE_APPLICATION_ERROR(-20001, 'Cliente não existe');
+	END;
+
+BEGIN
+	Verif_Cliente(1);
+END;

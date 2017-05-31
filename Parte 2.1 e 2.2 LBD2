@@ -1,0 +1,173 @@
+CREATE TABLE Cliente(
+	Cod_cliente number(5) primary key,
+	Nome_cliente varchar(30),
+	Endereco varchar(25),
+	Cidade varchar(20),
+	Cep varchar (10),
+	UF varchar(2)
+);
+
+CREATE TABLE Vendedor(
+	Cod_vendedor number(5) primary key,
+	Nomevendedor varchar(30),
+	Faixa_comisão number(5,2),
+	Salario_fixo number(8,2)
+);
+
+CREATE TABLE Produto(
+	Cod_produto number(3) primary key,
+	Descrição varchar(20),
+	Unidade varchar(2),
+	Valor_unitário number(9,2)
+);
+
+CREATE TABLE Pedido(
+	Num_Pedido number(5) primary key,
+	Prazo_entrega date,
+	Cod_cliente REFERENCES Cliente,
+	Cod_vendedor REFERENCES Vendedor
+);
+
+CREATE TABLE Item_Pedido(
+	Num_pedido number(5) REFERENCES Cliente,
+	Cod_Produto number(5) REFERENCES Produto,
+	Quantidade number(5,0)
+);
+
+INSERT into Cliente values (00001,'Josivaldo','Rolando Ladeira','Sorocaba',18160000,'SP');
+INSERT into Cliente values (00002,'Felipe','Descendo Ladeira','Pilar do sul',18160124,'SP');
+INSERT into Cliente values (00003,'Gustavo','Subindo a Ladeira','São Roque',19168941,'SP');
+INSERT into Cliente values (00004,'Fernando','Na Ladeira','Itu',181918171,'SP');
+INSERT into Cliente values (00005,'Caio','Curva sob Ladeira','Rio de Janeiro',18160000,'RJ');
+
+INSERT into Vendedor values (00001,'Kaique',15.4,820);
+INSERT into Vendedor values (00005,'Miqueias',15,900);
+INSERT into Vendedor values (00002,'Leila',30,950);
+INSERT into Vendedor values (00003,'Estefanie',5,640);
+INSERT into Vendedor values (00004,'Jurandir',10,700);
+
+INSERT into Produto values (001,'Tangue','UN',0.75);
+INSERT into Produto values (002,'Dado -d6','UN',3.50);
+INSERT into Produto values (003,'Doritos','UN',5.00);
+INSERT into Produto values (004,'Credito de celular','UN',12.00);
+INSERT into Produto values (005,'Pulseira S.M.1','UN',8200.00);
+
+INSERT into Pedido values (00001,'01/01/2017',00001,00002);
+INSERT into Pedido values (00002,'01/01/2017',00001,00002);
+INSERT into Pedido values (00003,'04/11/2017',00004,00005);
+INSERT into Pedido values (00004,'01/01/2017',00002,00001);
+INSERT into Pedido values (00005,'01/01/2017',00005,00004);
+
+INSERT into Pedido values (00001,'01/01/2017',00003,00002);
+INSERT into Pedido values (00002,'01/01/2017',00001,00002);
+INSERT into Pedido values (00003,'04/11/2017',00004,00005);
+INSERT into Pedido values (00004,'01/01/2017',00002,00001);
+INSERT into Pedido values (00005,'01/01/2017',00005,00004);
+
+INSERT into Item_Pedido values (00001,00003,4);
+INSERT into Item_Pedido values (00002,00001,12);
+INSERT into Item_Pedido values (00003,00004,5);
+INSERT into Item_Pedido values (00004,00002,7);
+INSERT into Item_Pedido values (00005,00005,24);
+
+ALTER TABLE CLIENTE modify ENDERECO VARCHAR(30);
+ALTER TABLE ITEM_PEDIDO ADD PCO_UNIT NUMBER (7,2);
+UPDATE CLIENTE SET CEP = '18035-400' WHERE CIDADE = 'Sorocaba';
+UPDATE PEDIDO SET PRAZO_ENTREGA = PRAZO_ENTREGA + 10 WHERE COD_CLIENTE = 20;
+UPDATE PRODUTO SET VALOR_UNITÁRIO = VALOR_UNITÁRIO + VALOR_UNITÁRIO * 0.10 WHERE UNIDADE = 'UN';
+DELETE FROM PRODUTO WHERE UNIDADE = 'CX' AND VALOR_UNITÁRIO > 50.00;
+
+SELECT NUM_PEDIDO, PRAZO_ENTREGA
+FROM PEDIDO
+
+SELECT DESCRIÇÃO, VALOR_UNITÁRIO
+FROM PRODUTO
+
+SELECT NOME_CLIENTE, ENDERECO
+FROM CLIENTE
+
+SELECT NOMEVENDEDOR
+FROM VENDEDOR
+
+SELECT *
+FROM CLIENTE
+
+SELECT *
+FROM PRODUTO
+
+SELECT NOMEVENDEDOR AS NAMESELLER 
+FROM VENDEDOR 
+
+SELECT VALOR_UNITÁRIO, VALOR_UNITÁRIO * 1.10 
+FROM PRODUTO
+
+SELECT SALARIO_FIXO, SALARIO_FIXO * 1.10
+FROM VENDEDOR
+
+SELECT NOME_CLIENTE
+FROM CLIENTE
+WHERE CIDADE = 'Sorocaba'
+
+SELECT NOMEVENDEDOR
+FROM VENDEDOR
+WHERE SALARIO_FIXO = 400.0
+
+SELECT COD_PRODUTO
+FROM PRODUTO
+WHERE UNIDADE = 'Kg'
+
+SELECT NUM_PEDIDO
+FROM PEDIDO
+WHERE PRAZO_ENTREGA <= '01/06/2012' AND PRAZO_ENTREGA >= '01/05/2012'
+
+SELECT NUM_PEDIDO, PRAZO_ENTREGA
+FROM PEDIDO 
+WHERE PRAZO_ENTREGA BETWEEN '31/12/2016' AND '31/12/2017'
+
+SELECT *
+FROM PRODUTO 
+WHERE VALOR_UNITÁRIO BETWEEN 100.0 AND 200.0
+
+SELECT NUM_PEDIDO, COD_PRODUTO
+FROM ITEM_PEDIDO
+WHERE QUANTIDADE BETWEEN 1000 AND 1500
+
+SELECT NOMEVENDEDOR
+FROM VENDEDOR
+WHERE NOMEVENDEDOR like 'José%'
+
+INSERT INTO VENDEDOR VALUES (00006,'José bixaum',15.4,820);
+
+SELECT NOMEVENDEDOR
+FROM VENDEDOR
+WHERE NOMEVENDEDOR like '%Silva'
+
+SELECT COD_PRODUTO,DESCRIÇÃO
+FROM PRODUTO
+WHERE DESCRIÇÃO LIKE '%AC'
+
+SELECT NOME_CLIENTE
+FROM CLIENTE
+WHERE ENDERECO IS NULL
+
+INSERT into Cliente values (00006,'Josivaldo','','Sorocaba',18160000,'SP');
+
+SELECT DISTINCT CIDADE
+FROM CLIENTE
+
+SELECT *
+FROM CLIENTE
+ORDER BY NOME_CLIENTE 
+
+SELECT *
+FROM CLIENTE
+ORDER BY ENDERECO
+
+SELECT *
+FROM CLIENTE
+ORDER BY NOME_CLIENTE, ENDERECO
+
+SELECT DESCRIÇÃO, COD_PRODUTO
+FROM PRODUTO
+WHERE UNIDADE = 'UN'
+ORDER BY DESCRIÇÃO

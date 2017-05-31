@@ -1,0 +1,43 @@
+-- LBD AULA LAB 11.05.17
+--FUNCÕES
+
+--OBS FALTEI NA AULA PASADA
+
+	Uma função e semelhante a uma stored procedure - tambem aceita parametros.
+	As diferenças sao que as funções sempre retornam valores e sao chamadas como parte de uma execução
+	
+EX1) Create function calcdobro (p1 number)
+	 RETURN NUMBERAS
+		P2 NUMBER;
+	BEGIN
+		P1 := P1 * 2;
+		--:= atribuição no oracle sql
+		RETURN P2;
+	END;
+	
+	P/ Executar a fun~ção;
+	
+	1) SELECT CRMMEDICO, CALCDOBRO(VRCONSULTA)
+	FROM MEDICO;
+	
+	OU
+	
+	2) BEGIN
+			DBMS_OUTPUT.PUT_LINE(CALCDOBRO(50));
+			-- se nao funcionar deve-se librar com SET SERVEROUTPUT ON;
+		END;
+		
+EX2) CREATE OR REPLACE FUNCTION FN_DEV_DESCR (PCOD PRDOUTO.COD_PRODUTO % TYPE)
+	  RETURN VARCHAR 2
+	  AS
+			VDESCR PRDOUTO.DESCRICAO%TYPE;
+	  BEGIN
+			SELECT DESCRICAO INTO VDESCR
+			FROM PRODUTO
+			WHERE COD_PRODUTO = PCOD;
+			
+			RETURN VDESCR;
+	  END;
+	  
+	  P/exsecutar: select num_pedido,cod_produto, fn_dev_descr(cod_produto)
+				   from item_pedido;

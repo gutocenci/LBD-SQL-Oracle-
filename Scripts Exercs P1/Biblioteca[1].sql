@@ -1,0 +1,178 @@
+--Avaliação Prática LBD
+--Adriele dos Santos Rodrigues 0030481511045
+
+--SCRIPT BIBLIOTECA
+-- Criando as tabelas
+CREATE TABLE Assuntos
+(CodAssunto	NUMBER(3,0)	PRIMARY KEY,
+ Descricao		VARCHAR2(30)	NOT NULL,
+ DescontoProm	NUMBER(4,2));
+
+CREATE TABLE Livros
+(CodLivro		NUMBER(4,0)	PRIMARY KEY,
+ CodAssunto	NUMBER(3,0)	NOT NULL REFERENCES Assuntos, 
+ Titulo		VARCHAR2(50)	NOT NULL,
+ Editora		VARCHAR2(30)	NOT NULL,
+ Cidade		VARCHAR2(30),
+ DataEdicao	DATE,
+ Preco		NUMBER(6,2));
+
+CREATE TABLE Autores
+(CodAutor		NUMBER(4,0)	PRIMARY KEY,
+ NomeAutor	VARCHAR2(50)	NOT NULL,
+ DtNasc		DATE,
+ CidadeNasc	VARCHAR2(30),
+ Sexo		CHAR(1)		CHECK (SEXO IN ('F', 'M')));
+
+CREATE TABLE AutorLivro
+(CodAutor		NUMBER(4,0)	NOT NULL REFERENCES Autores,
+ CodLivro		NUMBER(4,0)	NOT NULL REFERENCES Livros,
+ PRIMARY KEY (CodAutor, CodLivro));
+
+CREATE TABLE TABMSG1
+(DataLog		DATE,
+ Mensagem1	VARCHAR2(100));
+
+
+-- Inserindo dados na tabela Assuntos
+INSERT INTO Assuntos VALUES
+	('001', 'DESENVOLVIMENTO', 0.10);
+INSERT INTO Assuntos VALUES
+	('002', 'BANCO DE DADOS', 0.20);
+INSERT INTO Assuntos VALUES
+	('003', 'SISTEMAS OPERACIONAIS', 0.30);
+INSERT INTO Assuntos VALUES
+	('004', 'ANALISE DE SISTEMAS', 0.15);
+
+-- Inserindo dados na tabela Livros
+INSERT INTO Livros VALUES
+	('1021', '001', 'VBA E MACROS - EXCEL 2010', 'MODERNA', 'SÃO PAULO', '01-03-2012', 74.30 );
+INSERT INTO Livros VALUES
+	('1022', '001', 'GOOGLE ANDROID', 'CAMPUS', 'RIO DE JANEIRO', '15-06-2010', 115.00 );
+INSERT INTO Livros VALUES
+	('1023', '004', 'SCRUM EM ACAO - GERENCIAMENTO E DESENVOLVIMENTO', 'MODERNA', 'SÃO PAULO', '25-11-2012', 200.55 );
+INSERT INTO Livros VALUES
+	('1024', '001', 'COMPUTAÇÃO EM NUVEM', 'MC GRAW HILL', 'SÃO PAULO', '10-10-2011', 57.00 );
+INSERT INTO Livros VALUES
+	('1025', '001', 'PROGRAMACAO JAVA PARA WEB', 'MAKRON BOOKS', 'RIO DE JANEIRO', '19-07-2011', 100.00 );
+INSERT INTO Livros VALUES
+	('1026', '001', 'PROGRAMACAO COM ARDUINO', 'MODERNA', 'SÃO PAULO', '13-11-2012', 89.90 );
+INSERT INTO Livros VALUES
+	('1027', '002', 'SISTEMAS DE BANCO DE DADOS', 'CAMPUS', 'RIO DE JANEIRO', '28-08-2012', 190.88 );
+INSERT INTO Livros VALUES
+	('1028', '003', 'SISTEMAS OPERACIONAIS MODERNOS', 'MODERNA', 'SÃO PAULO', '10-03-2012', 66.70 );
+INSERT INTO Livros VALUES
+	('1029', '004', 'ANALISE E PROJETO DE SISTEMAS', 'MC GRAW HILL', 'SÃO PAULO', '20-12-2012', 110.00 );
+INSERT INTO Livros VALUES
+	('1030', '001', 'C## PARA INICIANTES', 'CAMPUS', 'RIO DE JANEIRO', '14-10-2013', 74.50 );
+INSERT INTO Livros VALUES
+	('1031', '003', 'DESCOBRINDO O LINUX', 'MODERNA', 'SÃO PAULO', '20-09-2012', 230.40 );
+INSERT INTO Livros VALUES
+	('1032', '004', 'ENGENHARIA DE SOFTWARE', 'MAKRON BOOKS', 'RIO DE JANEIRO', '22-01-2012', 87.80 );
+
+-- Inserindo dados na tabela Autores
+INSERT INTO Autores VALUES
+	('0001', 'ROBERTO LUCCATS', '26-05-1942', 'SÃO PAULO', 'M');
+INSERT INTO Autores VALUES
+	('0002', 'TERESINHA R. AMARAL', '14-09-1977', 'RIO DE JANEIRO', 'F');
+INSERT INTO Autores VALUES
+	('0003', 'FERNANDO E. F. SIQUEIRA', '11-08-1960', 'CAMPINAS', 'M');
+INSERT INTO Autores VALUES
+	('0004', 'RITA DE CASSIA SBRISSA', '13-11-1972', 'SÃO PAULO', 'F');
+INSERT INTO Autores VALUES
+	('0005', 'JOÃO CABRAL DE MELO NETO', '06-12-1931', 'SOROCABA', 'M');
+INSERT INTO Autores VALUES
+	('0006', 'MONTEIRO LOBATO', '25-04-1912', 'SÃO PAULO', 'M');
+INSERT INTO Autores VALUES
+	('0007', 'MARIA AUXILIADORA BORGES', '20-01-1941', 'RIO DE JANEIRO', 'F');
+INSERT INTO Autores VALUES
+	('0008', 'CLARICE LISPECTOR', '19-09-1975', 'SOROCABA', 'F');
+INSERT INTO Autores VALUES
+	('0009', 'RUBENS PAIVA', '01-01-1978', 'SÃO PAULO', 'M');
+INSERT INTO Autores VALUES
+	('0010', 'ANA BEATRIZ NOGUEIRA', '20-10-1945', 'SÃO PAULO', 'F');
+
+-- Inserindo dados na tabela AutorLivro
+INSERT INTO AutorLivro
+	VALUES ( '0001', '1021') ;
+INSERT INTO AutorLivro
+	VALUES ( '0002', '1022') ;
+INSERT INTO AutorLivro
+	VALUES ( '0003', '1023') ;
+INSERT INTO AutorLivro
+	VALUES ( '0004', '1023') ;
+INSERT INTO AutorLivro
+	VALUES ( '0005', '1024') ;
+INSERT INTO AutorLivro
+	VALUES ( '0006', '1025') ;
+INSERT INTO AutorLivro
+	VALUES ( '0007', '1026') ;
+INSERT INTO AutorLivro
+	VALUES ( '0005', '1029') ;
+INSERT INTO AutorLivro
+	VALUES ( '0002', '1027') ;
+INSERT INTO AutorLivro
+	VALUES ( '0008', '1028') ;
+INSERT INTO AutorLivro
+	VALUES ( '0004', '1029') ;
+INSERT INTO AutorLivro
+	VALUES ( '0009', '1030') ;
+INSERT INTO AutorLivro
+	VALUES ( '0010', '1031') ;
+INSERT INTO AutorLivro
+	VALUES ( '0001', '1031') ;
+INSERT INTO AutorLivro
+	VALUES ( '0005', '1032') ;
+
+
+--1
+SELECT Titulo
+FROM Livros
+WHERE Preco = (SELECT MAX(Preco) FROM Livros);
+
+--2
+UPDATE Livros
+SET Preco = Preco * 0.9
+WHERE CodAssunto IN (SELECT CodAssunto FROM Assuntos WHERE Descricao LIKE 'BANCO DE DADOS');
+
+--3
+SELECT Autores.NomeAutor, COUNT(*) as Quantidade
+FROM Autores, AutorLivro
+WHERE Autores.CodAutor = AutorLivro.CodAutor
+GROUP BY Autores.NomeAutor;
+
+--4
+SELECT Livros.Titulo
+FROM Livros, Assuntos, Autores, AutorLivro
+WHERE Livros.CodAssunto = Assuntos.CodAssunto
+AND Livros.CodLivro = AutorLivro.CodLivro AND Autores.CodAutor = AutorLivro.CodAutor
+AND Assuntos.Descricao LIKE 'ANALISE DE SISTEMAS'
+AND Autores.NomeAutor LIKE 'JOÃO CABRAL DE MELO NETO'
+AND Livros.DataEdicao BETWEEN '01-01-2012' AND '31-12-2012';
+
+--5
+CREATE OR REPLACE VIEW v_Exercicio5 AS
+  SELECT Autores.NomeAutor
+  FROM Autores, AutorLivro
+  WHERE Autores.CodAutor = AutorLivro.CodAutor
+  GROUP BY Autores.NomeAutor
+  HAVING COUNT(*) > 2;
+
+SELECT * FROM v_Exercicio5;
+
+--6
+SELECT Assuntos.Descricao
+FROM Assuntos
+WHERE CodAssunto NOT IN(SELECT CodAssunto FROM Livros);
+
+--7
+SELECT Titulo, Editora, DataEdicao
+FROM Livros
+WHERE Preco < (SELECT AVG(Preco) FROM Livros);
+
+--8
+UPDATE Assuntos
+SET DescontoProm = 0.15
+WHERE CodAssunto IN (SELECT CodAssunto FROM Livros WHERE Editora LIKE 'MAKRON BOOKS');
+
+SELECT * FROM Assuntos;
